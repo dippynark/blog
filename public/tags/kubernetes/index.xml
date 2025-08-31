@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Blog</title>
-    <link>http://localhost:1313/post/</link>
-    <description>Recent content in Posts on Blog</description>
+    <title>Kubernetes on Blog</title>
+    <link>http://localhost:1313/tags/kubernetes/</link>
+    <description>Recent content in Kubernetes on Blog</description>
     <generator>Hugo</generator>
     <language>en</language>
     <managingEditor>lukeaddison785@gmail.com (Luke Addison)</managingEditor>
     <webMaster>lukeaddison785@gmail.com (Luke Addison)</webMaster>
     <lastBuildDate>Sun, 31 Aug 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Zero down-time deployments with externalTrafficPolicy Local</title>
       <link>http://localhost:1313/post/2015-08-31-zero-down-time-deployments/</link>

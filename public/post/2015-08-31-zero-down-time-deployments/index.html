@@ -18,8 +18,8 @@
 Local
 is a configuration option for Kubernetes Services that preserves the client source IP and reduces
 latency by only forwarding external packets to Pods on the local node. This post describes how a
-workload running behind a Service of type LoadBalancer can be configured to ensure requests are not
-dropped when performing a rolling update.
+workload running behind a Service of type LoadBalancer can be configured to reduce the chance of
+requests being dropped when performing a rolling update.
 As a specific example we are going to be using Nginx Ingress Controller running behind a GKE Service
 of type LoadBalancer with GKE
 subsetting
@@ -59,7 +59,7 @@ enabled, but the concepts should extend to other Kubernetes environments.">
         "@type": "ListItem",
         "position": 3,
         "item": {
-          "@id": "http:\/\/localhost:1313\/post\/2015-01-04-first-post\/",
+          "@id": "http:\/\/localhost:1313\/post\/2015-08-31-zero-down-time-deployments\/",
           "name": "Zero down time deployments with external traffic policy local"
         }
     }]
@@ -72,14 +72,14 @@ enabled, but the concepts should extend to other Kubernetes environments.">
     "name" : "Luke Addison"
   },
   "headline": "Zero down-time deployments with externalTrafficPolicy Local",
-  "description" : "externalTrafficPolicy Local is a configuration option for Kubernetes Services that preserves the client source IP and reduces latency by only forwarding external packets to Pods on the local node. This post describes how a workload running behind a Service of type LoadBalancer can be configured to ensure requests are not dropped when performing a rolling update.\nAs a specific example we are going to be using Nginx Ingress Controller running behind a GKE Service of type LoadBalancer with GKE subsetting enabled, but the concepts should extend to other Kubernetes environments.\n",
+  "description" : "externalTrafficPolicy Local is a configuration option for Kubernetes Services that preserves the client source IP and reduces latency by only forwarding external packets to Pods on the local node. This post describes how a workload running behind a Service of type LoadBalancer can be configured to reduce the chance of requests being dropped when performing a rolling update.\nAs a specific example we are going to be using Nginx Ingress Controller running behind a GKE Service of type LoadBalancer with GKE subsetting enabled, but the concepts should extend to other Kubernetes environments.\n",
   "inLanguage" : "en",
-  "wordCount":  698 ,
+  "wordCount":  885 ,
   "datePublished" : "2025-08-31T00:00:00\u002b00:00",
   "dateModified" : "2025-08-31T00:00:00\u002b00:00",
   "image" : "http:\/\/localhost:1313\/img\/avatar-icon.png",
   "keywords" : [ "kubernetes" ],
-  "mainEntityOfPage" : "http:\/\/localhost:1313\/post\/2015-01-04-first-post\/",
+  "mainEntityOfPage" : "http:\/\/localhost:1313\/post\/2015-08-31-zero-down-time-deployments\/",
   "publisher" : {
     "@type": "Organization",
     "name" : "http:\/\/localhost:1313\/",
@@ -99,14 +99,14 @@ enabled, but the concepts should extend to other Kubernetes environments.">
 Local
 is a configuration option for Kubernetes Services that preserves the client source IP and reduces
 latency by only forwarding external packets to Pods on the local node. This post describes how a
-workload running behind a Service of type LoadBalancer can be configured to ensure requests are not
-dropped when performing a rolling update.
+workload running behind a Service of type LoadBalancer can be configured to reduce the chance of
+requests being dropped when performing a rolling update.
 As a specific example we are going to be using Nginx Ingress Controller running behind a GKE Service
 of type LoadBalancer with GKE
 subsetting
 enabled, but the concepts should extend to other Kubernetes environments.">
 <meta property="og:image" content="http://localhost:1313/img/avatar-icon.png" />
-<meta property="og:url" content="http://localhost:1313/post/2015-01-04-first-post/" />
+<meta property="og:url" content="http://localhost:1313/post/2015-08-31-zero-down-time-deployments/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Blog" />
 
@@ -253,10 +253,10 @@ latency by only forwarding external packets to Pods on the local node. …">
   <i class="fas fa-calendar"></i>&nbsp;Posted on August 31, 2025
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;4&nbsp;minutes
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;5&nbsp;minutes
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;698&nbsp;words
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;885&nbsp;words
   
   
     
@@ -286,8 +286,8 @@ latency by only forwarding external packets to Pods on the local node. …">
 Local</a>
 is a configuration option for Kubernetes Services that preserves the client source IP and reduces
 latency by only forwarding external packets to Pods on the local node. This post describes how a
-workload running behind a Service of type LoadBalancer can be configured to ensure requests are not
-dropped when performing a rolling update.</p>
+workload running behind a Service of type LoadBalancer can be configured to reduce the chance of
+requests being dropped when performing a rolling update.</p>
 <p>As a specific example we are going to be using Nginx Ingress Controller running behind a GKE Service
 of type LoadBalancer with <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/internal-load-balancing#gke-subsetting">GKE
 subsetting</a>
@@ -337,20 +337,37 @@ Pods before the new ones have been registered with the load balancer.</p>
 gates</a> can
 help here by checking that the Pod is registered with the load balancer before marking the Pod as
 ready. When using GKE container-native load balancing, you can use the
-<a href="https://cloud.google.com/kubernetes-engine/docs/concepts/container-native-load-balancing#pod_readiness">cloud.google.com/load-balancer-neg-ready readiness
-gate</a>
-out of the box which works because the load balancer health check is made directly to the Pod and so
-is decoupled from the kube-proxy health check. However, when using a GKE Service of type
-LoadBalancer, so such readiness gate exists because there is a cyclic dependency on the readiness of
-the node; the readiness gate would not pass until the load balancer marked the local node as ready
-which would not happen until the readiness gate passes.</p>
+<a href="https://cloud.google.com/kubernetes-engine/docs/concepts/container-native-load-balancing#pod_readiness">cloud.google.com/load-balancer-neg-ready</a>
+readiness gate out of the box which works because the load balancer health check is made directly to
+the Pod and so is decoupled from the kube-proxy health check. However, when using a GKE Service of
+type LoadBalancer, no such readiness gate exists because there is a cyclic dependency on the
+readiness of the node; the readiness gate would not pass until the load balancer has marked the
+local node as ready which would not happen until the readiness gate passes.</p>
 <p>Since the GKE Service of type LoadBalancer implementation considers <a href="https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/neg/types/types.go#L337">both ready and not ready Pods
 </a>
 we could implement a readiness gate that waits for the local node to be added into the load balancer
 but just does not wait for it to be healthy, taking advantage of the fact that internal passthrough
 Network Load Balancers <a href="https://cloud.google.com/load-balancing/docs/internal/int-netlb-traffic-distribution#failover">distribute new connections to all backend
 VMs</a>
-if they are all unhealthy.</p>
+if they are all unhealthy. However, even in this case there is a race condition between kube-proxy
+configuring routes to the new Pods.</p>
+<p>As a simpler work around, the readiness probe can be delayed using <code>initialDelaySeconds</code> for an
+amount of time that gives a high chance that the local node has been registered before marking the
+Pod as ready (e.g. 20 seconds, slightly longer than the <a href="https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/flags/flags.go#L43-L44">lease
+duration</a>)
+but this does not provide any guarantees.</p>
+<p>Note that GKE recommends using
+<a href="https://cloud.google.com/kubernetes-engine/docs/how-to/container-native-load-balancing#align_rollouts"><code>minReadySeconds</code></a>
+which works great when performing a rolling update but is not considered in other circumstances that
+cause Pods to be terminated and recreated (e.g. evictions caused by nodes being drained and vertical
+Pod autoscaling).</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>As we can see, the mechanisms for ensuring zero down-time when running behind a Service of type
+LoadBalancer with externalTrafficPolicy Local cannot provide guarantees in a number of edge cases,
+however we can significantly reduce the chance of experiencing these edge cases by using more
+replicas and reducing eviction rates using a PodDisruptionBudget and surge upgrades.</p>
+<p>In the future there may be additional options to mitigate these issues, for example <a href="https://github.com/kubernetes/kubernetes/issues/106476#issuecomment-2749150204">Pod Termination
+Gates</a>.</p>
 
 
         
@@ -372,42 +389,42 @@ if they are all unhealthy.</p>
     <ul class="share">
       
       <li>
-        <a href="//twitter.com/share?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-01-04-first-post%2f&amp;text=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local&amp;via=" target="_blank" title="Share on Twitter">
+        <a href="//twitter.com/share?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-08-31-zero-down-time-deployments%2f&amp;text=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local&amp;via=" target="_blank" title="Share on Twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-01-04-first-post%2f" target="_blank" title="Share on Facebook">
+        <a href="//www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-08-31-zero-down-time-deployments%2f" target="_blank" title="Share on Facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-01-04-first-post%2f&amp;title=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local" target="_blank" title="Share on Reddit">
+        <a href="//reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-08-31-zero-down-time-deployments%2f&amp;title=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local" target="_blank" title="Share on Reddit">
           <i class="fab fa-reddit"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//www.linkedin.com/shareArticle?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-01-04-first-post%2f&amp;title=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local" target="_blank" title="Share on LinkedIn">
+        <a href="//www.linkedin.com/shareArticle?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-08-31-zero-down-time-deployments%2f&amp;title=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local" target="_blank" title="Share on LinkedIn">
           <i class="fab fa-linkedin"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//www.stumbleupon.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-01-04-first-post%2f&amp;title=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local" target="_blank" title="Share on StumbleUpon">
+        <a href="//www.stumbleupon.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-08-31-zero-down-time-deployments%2f&amp;title=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local" target="_blank" title="Share on StumbleUpon">
           <i class="fab fa-stumbleupon"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//www.pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-01-04-first-post%2f&amp;description=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local" target="_blank" title="Share on Pinterest">
+        <a href="//www.pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2015-08-31-zero-down-time-deployments%2f&amp;description=Zero%20down-time%20deployments%20with%20externalTrafficPolicy%20Local" target="_blank" title="Share on Pinterest">
           <i class="fab fa-pinterest"></i>
         </a>
       </li>
