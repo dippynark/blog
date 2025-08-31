@@ -210,7 +210,7 @@
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;5&nbsp;minutes
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;882&nbsp;words
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;885&nbsp;words
   
   
     
@@ -228,8 +228,8 @@
 Local</a>
 is a configuration option for Kubernetes Services that preserves the client source IP and reduces
 latency by only forwarding external packets to Pods on the local node. This post describes how a
-workload running behind a Service of type LoadBalancer can be configured to ensure requests are not
-dropped when performing a rolling update.</p>
+workload running behind a Service of type LoadBalancer can be configured to reduce the chance of
+requests being dropped when performing a rolling update.</p>
 <p>As a specific example we are going to be using Nginx Ingress Controller running behind a GKE Service
 of type LoadBalancer with <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/internal-load-balancing#gke-subsetting">GKE
 subsetting</a>
