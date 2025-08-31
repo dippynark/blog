@@ -1,6 +1,6 @@
 baseurl = "https://username.github.io"
 DefaultContentLanguage = "en"
-title = "Blog"
+title = "Luke Addison"
 # Using theme as git submodule
 theme = "beautifulhugo"
 # Or when using theme as hugo module
@@ -19,10 +19,10 @@ pygmentsCodefencesGuessSyntax = true
 # id = "XXX"
 
 [Params]
- homeTitle = "Luke Addison Blog" # Set a different text for the header on the home page
-subtitle = "Build a beautiful and simple website in minutes"
+homeTitle = " " # Set a different text for the header on the home page
+# subtitle = "Build a beautiful and simple website in minutes"
 mainSections = ["post", "posts"]
-logo = "img/avatar-icon.png"                                 # Expecting square dimensions
+logo = "img/profile.jpg"     # Expecting square dimensions
 favicon = "img/favicon.ico"
 dateFormat = "January 2, 2006"
 commit = false

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kubernetes on Blog</title>
+    <title>Kubernetes on Luke Addison</title>
     <link>http://localhost:1313/tags/kubernetes/</link>
-    <description>Recent content in Kubernetes on Blog</description>
+    <description>Recent content in Kubernetes on Luke Addison</description>
     <generator>Hugo</generator>
     <language>en</language>
     <managingEditor>lukeaddison785@gmail.com (Luke Addison)</managingEditor>
@@ -11,11 +11,11 @@
     <lastBuildDate>Sun, 31 Aug 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Zero down-time deployments with externalTrafficPolicy Local</title>
-      <link>http://localhost:1313/post/2015-08-31-zero-down-time-deployments/</link>
+      <title>Zero downtime deployments with externalTrafficPolicy Local</title>
+      <link>http://localhost:1313/post/2015-08-31-zero-downtime-deployments/</link>
       <pubDate>Sun, 31 Aug 2025 00:00:00 +0000</pubDate><author>lukeaddison785@gmail.com (Luke Addison)</author>
-      <guid>http://localhost:1313/post/2015-08-31-zero-down-time-deployments/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip&#34;&gt;externalTrafficPolicy&#xA;Local&lt;/a&gt;&#xA;is a configuration option for Kubernetes Services that preserves the client source IP and reduces&#xA;latency by only forwarding external packets to Pods on the local node. This post describes how a&#xA;workload running behind a Service of type LoadBalancer can be configured to reduce the chance of&#xA;requests being dropped when performing a rolling update.&lt;/p&gt;&#xA;&lt;p&gt;As a specific example we are going to be using Nginx Ingress Controller running behind a GKE Service&#xA;of type LoadBalancer with &lt;a href=&#34;https://cloud.google.com/kubernetes-engine/docs/how-to/internal-load-balancing#gke-subsetting&#34;&gt;GKE&#xA;subsetting&lt;/a&gt;&#xA;enabled, but the concepts should extend to other Kubernetes environments.&lt;/p&gt;</description>
+      <guid>http://localhost:1313/post/2015-08-31-zero-downtime-deployments/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip&#34;&gt;externalTrafficPolicy&#xA;Local&lt;/a&gt;&#xA;is a configuration option for Kubernetes Services that configures nodes to only forward external&#xA;traffic to local Service endpoints, reducing latency and preserving the client source IP. &lt;a href=&#34;https://www.youtube.com/watch?v=y2bhV81MfKQ&#34;&gt;The ins&#xA;and outs of networking in GKE&lt;/a&gt; is my favourite video&#xA;for understanding this configuration option.&lt;/p&gt;&#xA;&lt;p&gt;This post describes how a workload exposed using a Service of type LoadBalancer with&#xA;externalTrafficPolicy Local can be configured to avoid requests being dropped when performing a&#xA;rolling update.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

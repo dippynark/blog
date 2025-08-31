@@ -12,13 +12,13 @@
  
 
 
-      <title>Posts - Luke Addison Blog</title>
+      <title>Posts -  </title>
 
   <meta name="author" content="Luke Addison"/><script type="application/ld+json">
 {
     "@context": "http://schema.org",
     "@type": "WebSite",
-    "name": "Blog",
+    "name": "Luke Addison",
     
     "url": "http:\/\/localhost:1313\/"
 }
@@ -36,17 +36,17 @@
 </script>
 
 <meta property="og:title" content="Posts" />
-<meta property="og:image" content="http://localhost:1313/img/avatar-icon.png" />
+<meta property="og:image" content="http://localhost:1313/img/profile.jpg" />
 <meta property="og:url" content="http://localhost:1313/post/" />
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="Blog" />
+<meta property="og:site_name" content="Luke Addison" />
 
   <meta name="twitter:title" content="Posts" />
-  <meta name="twitter:image" content="http://localhost:1313/img/avatar-icon.png" />
+  <meta name="twitter:image" content="http://localhost:1313/img/profile.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link href='http://localhost:1313/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta name="generator" content="Hugo 0.149.0">
-  <link rel="alternate" href="http://localhost:1313/index.xml" type="application/rss+xml" title="Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css" integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI" crossorigin="anonymous">
+  <link rel="alternate" href="http://localhost:1313/index.xml" type="application/rss+xml" title="Luke Addison"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css" integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css" integrity="sha384-h/hnnw1Bi4nbpD6kE7nYfCXzovi622sY5WBxww8ARKwpdLj5kUWjRuyiXaD1U2JT" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"><link rel="stylesheet" href="http://localhost:1313/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
@@ -65,7 +65,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://localhost:1313/">Blog</a>
+      <a class="navbar-brand" href="http://localhost:1313/">Luke Addison</a>
     </div>
 
     <div class="collapse navbar-collapse" id="main-navbar">
@@ -87,8 +87,8 @@
     
       <div class="avatar-container">
         <div class="avatar-img-border">
-          <a title="Blog" href="http://localhost:1313/">
-            <img class="avatar-img" src="http://localhost:1313/img/avatar-icon.png" alt="Blog" />
+          <a title="Luke Addison" href="http://localhost:1313/">
+            <img class="avatar-img" src="http://localhost:1313/img/profile.jpg" alt="Luke Addison" />
            
           </a>
         </div>
@@ -212,8 +212,8 @@
         <div class="posts-list">
           
             <article class="post-preview">
-    <a href="http://localhost:1313/post/2015-08-31-zero-down-time-deployments/">
-        <h2 class="post-title">Zero down-time deployments with externalTrafficPolicy Local</h2>
+    <a href="http://localhost:1313/post/2015-08-31-zero-downtime-deployments/">
+        <h2 class="post-title">Zero downtime deployments with externalTrafficPolicy Local</h2>
         
         
         
@@ -229,7 +229,7 @@
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;5&nbsp;minutes
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;885&nbsp;words
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1055&nbsp;words
   
   
     
@@ -245,15 +245,14 @@
         
         <p><a href="https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip">externalTrafficPolicy
 Local</a>
-is a configuration option for Kubernetes Services that preserves the client source IP and reduces
-latency by only forwarding external packets to Pods on the local node. This post describes how a
-workload running behind a Service of type LoadBalancer can be configured to reduce the chance of
-requests being dropped when performing a rolling update.</p>
-<p>As a specific example we are going to be using Nginx Ingress Controller running behind a GKE Service
-of type LoadBalancer with <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/internal-load-balancing#gke-subsetting">GKE
-subsetting</a>
-enabled, but the concepts should extend to other Kubernetes environments.</p>
-        <a href="http://localhost:1313/post/2015-08-31-zero-down-time-deployments/" class="post-read-more">[Read More]</a>
+is a configuration option for Kubernetes Services that configures nodes to only forward external
+traffic to local Service endpoints, reducing latency and preserving the client source IP. <a href="https://www.youtube.com/watch?v=y2bhV81MfKQ">The ins
+and outs of networking in GKE</a> is my favourite video
+for understanding this configuration option.</p>
+<p>This post describes how a workload exposed using a Service of type LoadBalancer with
+externalTrafficPolicy Local can be configured to avoid requests being dropped when performing a
+rolling update.</p>
+        <a href="http://localhost:1313/post/2015-08-31-zero-downtime-deployments/" class="post-read-more">[Read More]</a>
         
     </div>
 
@@ -338,7 +337,7 @@ enabled, but the concepts should extend to other Kubernetes environments.</p>
 
           
             &nbsp;&bull;&nbsp;
-            <a href="http://localhost:1313/">Blog</a>
+            <a href="http://localhost:1313/">Luke Addison</a>
           
         </p>
         

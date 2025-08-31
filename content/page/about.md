@@ -1,7 +1,10 @@
 ---
-title: About me
-subtitle: A little bit about me
+title: Luke Addison
+# subtitle: A little bit about me
 comments: false
 ---
 
-My name is Luke Addison
+I work at [HSBC](https://github.com/hsbc) as a Kubernetes platform engineer leading a small team
+helping to abstract away complexity from application teams.
+
+I am passionate about learning how to live a happy and peaceful life.
