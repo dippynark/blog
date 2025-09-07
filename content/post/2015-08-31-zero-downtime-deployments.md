@@ -87,6 +87,8 @@ need:
 lifecycleHookPreStopSleepSeconds + (readinessProbePeriodSeconds * (readinessProbeFailureThreshold - 1)) >= terminationGracePeriodSeconds
 ```
 
+The following configuration satisfies this requirement:
+
 ```yaml
 containers:
   - name: controller
