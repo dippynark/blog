@@ -2,6 +2,8 @@
 title: Zero Downtime Deployments with externalTrafficPolicy Local
 date: 2025-08-31
 tags: ["kubernetes"]
+aliases:
+  - 2015-08-31-zero-downtime-deployments
 ---
 
 [externalTrafficPolicy
