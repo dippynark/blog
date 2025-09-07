@@ -4,7 +4,9 @@ title: Luke Addison
 comments: false
 ---
 
-I work at [HSBC](https://github.com/hsbc) as a Kubernetes platform engineer leading a small team
-helping to abstract away complexity from application teams.
+I lead a globally distributed team at [HSBC](https://github.com/hsbc) building, operating and
+supporting an [internal Kubernetes
+platform](https://developer.cyberark.com/blog/building-an-internal-kubernetes-platform/) for
+application teams.
 
 I am passionate about learning how to live a happy and peaceful life.
