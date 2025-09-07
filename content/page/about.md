@@ -1,5 +1,5 @@
 ---
-title: Luke Addison
+title: About
 # subtitle: A little bit about me
 comments: false
 ---
