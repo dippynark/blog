@@ -3,11 +3,13 @@ DefaultContentLanguage = "en"
 title = "Luke Addison"
 theme = "beautifulhugo"
 
-[Services]
-[Services.Disqus]
-# Shortname = "XXX"
-[Services.googleAnalytics]
-# id = "XXX"
+[services]
+  # https://gohugo.io/templates/embedded/#disqus
+  [services.disqus]
+    shortname = "lukeaddisonblog"
+  # https://gohugo.io/templates/embedded/#google-analytics
+  [services.googleAnalytics]
+    id = 'G-SLEMT9K4MJ'
 
 [Params]
 homeTitle = " " # Set a different text for the header on the home page
