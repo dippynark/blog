@@ -1,4 +1,4 @@
-baseurl = "https://username.github.io"
+baseurl = "https://blog.lukeaddison.co.uk"
 DefaultContentLanguage = "en"
 title = "Luke Addison"
 # Using theme as git submodule
