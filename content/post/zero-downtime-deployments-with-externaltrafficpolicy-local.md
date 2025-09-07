@@ -1,5 +1,5 @@
 ---
-title: Zero downtime deployments with externalTrafficPolicy Local
+title: Zero Downtime Deployments with externalTrafficPolicy Local
 date: 2025-08-31
 tags: ["kubernetes"]
 ---
