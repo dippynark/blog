@@ -127,3 +127,8 @@ weight = 3
 
 [[module.imports]]
 path = "github.com/halogenica/beautifulhugo"
+
+# https://gohugo.io/host-and-deploy/host-on-github-pages/#step-2
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
