@@ -18,9 +18,10 @@ rolling update.
 As a specific example we are going to use Nginx Ingress Controller running behind a GKE Service of
 type LoadBalancer with [GKE
 subsetting](https://cloud.google.com/kubernetes-engine/docs/how-to/internal-load-balancing#gke-subsetting)
-enabled (which uses [ingress-gce](https://github.com/kubernetes/ingress-gce) instead of
-[cloud-provider-gcp](https://github.com/kubernetes/cloud-provider-gcp)) but the concepts should
-apply to other Kubernetes environments.
+but the concepts should apply to other Kubernetes environments; when GKE subsetting is enabled
+Service of type LoadBalancer are implemented using
+[ingress-gce](https://github.com/kubernetes/ingress-gce) instead of
+[cloud-provider-gcp](https://github.com/kubernetes/cloud-provider-gcp).
 
 # PreStop Lifecycle Hook
 
@@ -34,8 +35,8 @@ condition between when the Pod is stopped and when the load balancer stops forwa
 
 To ensure that the Pod continues to serve until the load balancer stops sending packets, a
 [PreStop](https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks)
-lifecycle hook can be configured to delay the kubelet sending the TERM signal to the Pod process
-until the load balancer health check has failed. In our case this is [6
+lifecycle hook can be configured to delay the kubelet sending a TERM signal to the Nginx Ingress
+Controller container process until the load balancer health check has failed. In our case this is [6
 seconds](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/healthchecksl4/healthchecksl4.go#L50)
 and we add a small amount of additional time to allow kube-proxy to observe the terminating Pod and
 start failing the health endpoint:
@@ -53,18 +54,18 @@ Note that typically we expect the load balancer to remove nodes from load balanc
 than the health check because the load balancer controller [watches
 EndpointSlices](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/neg/syncers/endpoints_calculator.go#L36-L51).
 
-Note also that Nginx Ingress Controller ships with a `wait-shutdown` binary that is
-[meant](https://github.com/kubernetes/ingress-nginx/blob/106e633655e7e5799ccf28d747b07d78833cd860/deploy/static/provider/baremetal/deploy.yaml#L446-L450)
-to be used instead of a sleep lifecycle hook together with the `--shutdown-grace-period` flag,
-however using this binary causes the readiness probe to start failing straight away which can cause
-traffic to be blackholed; see GitHub issue
+Note also that Nginx Ingress Controller ships with a
+[`wait-shutdown`](https://github.com/kubernetes/ingress-nginx/blob/106e633655e7e5799ccf28d747b07d78833cd860/deploy/static/provider/baremetal/deploy.yaml#L446-L450)
+binary that is meant to be used instead of a sleep lifecycle hook together with the
+`--shutdown-grace-period` flag, however using this binary causes the readiness probe to start
+failing straight away which can cause traffic to be blackholed; see GitHub issue
 [#13689](https://github.com/kubernetes/ingress-nginx/issues/13689) for details.
 
 # Readiness Probe
 
 Once the load balancer health check has failed new connections will no longer be sent to the node,
-however packets corresponding to existing connections will continue to be routed. In our case
-connection draining is configured to be [30
+however packets corresponding to existing connections will continue to be routed. In our case load
+balancer connection draining is configured to be [30
 seconds](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/backends/backends.go#L37),
 so we want to continue serving until these connections have been closed.
 
@@ -72,7 +73,7 @@ One option is to simply extend our PreStop lifecycle hook for 30 seconds so that
 resets the connections before the Nginx process is shut down, however this does not give Nginx a
 chance to drain HTTP requests gracefully (e.g. by sending GOAWAY frames on HTTP/2 connections).
 
-Instead, by ensuring the Nginx Ingress Controller Pods remain ready after receiving a TERM signal
+Instead, by ensuring that Nginx Ingress Controller Pods remain ready after receiving a TERM signal
 from the kubelet, we can take advantage of [KEP-1669: Proxy Terminating
 Endpoints](https://github.com/kubernetes/enhancements/tree/787f515ac4ddb93d0d1c381a17bcd330b8caf9b0/keps/sig-network/1669-proxy-terminating-endpoints)
 to ensure that existing connections continue to be forwarded until they are closed by Nginx.
@@ -123,9 +124,9 @@ ready. When using GKE container-native load balancing, we can use the
 [cloud.google.com/load-balancer-neg-ready](https://cloud.google.com/kubernetes-engine/docs/concepts/container-native-load-balancing#pod_readiness)
 readiness gate out of the box. This works because the load balancer health check is made directly to
 the Pod and so is decoupled from the kube-proxy health check. However, when using a GKE Service of
-type LoadBalancer, no such readiness gate exists because there is a cyclic dependency on the
-readiness of the node; the readiness gate would not pass until the load balancer has marked the
-local node as ready which would not happen until the readiness gate passes.
+type LoadBalancer, there is a cyclic dependency on the readiness of the node; the readiness gate
+would not pass until the load balancer has marked the local node as ready which would not happen
+until the readiness gate passes.
 
 Since the GKE Service of type LoadBalancer implementation considers [both ready and not ready Pods
 ](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/neg/types/types.go#L337)
@@ -139,7 +140,7 @@ load balancing readiness gate, but it does protect against the load balancer con
 
 As a simpler work around, the readiness probe can be delayed using `initialDelaySeconds` for an
 amount of time that gives a high chance that the local node has been registered before marking the
-Pod as ready (e.g. 20 seconds, slightly longer than the [lease
+Pod as ready (e.g. 20 seconds, slightly longer than the [Lease
 duration](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/flags/flags.go#L43-L44)).
 
 Note that GKE recommends using
