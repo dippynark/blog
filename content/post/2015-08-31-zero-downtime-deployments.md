@@ -18,7 +18,9 @@ rolling update.
 As a specific example we are going to use Nginx Ingress Controller running behind a GKE Service of
 type LoadBalancer with [GKE
 subsetting](https://cloud.google.com/kubernetes-engine/docs/how-to/internal-load-balancing#gke-subsetting)
-enabled, but the concepts should extend to other Kubernetes environments.
+enabled (which uses [ingress-gce](https://github.com/kubernetes/ingress-gce) instead of
+[cloud-provider-gcp](https://github.com/kubernetes/cloud-provider-gcp)) but the concepts should
+apply to other Kubernetes environments.
 
 # PreStop Lifecycle Hook
 

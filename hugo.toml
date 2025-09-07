@@ -1,16 +1,7 @@
 baseurl = "https://blog.lukeaddison.co.uk"
 DefaultContentLanguage = "en"
 title = "Luke Addison"
-# Using theme as git submodule
 theme = "beautifulhugo"
-# Or when using theme as hugo module
-# theme = "github.com/halogenica/beautifulhugo"
-pygmentsStyle = "trac"
-pygmentsUseClasses = true
-pygmentsCodeFences = true
-pygmentsCodefencesGuessSyntax = true
-#pygmentsUseClassic = true
-#pygmentOptions = "linenos=inline"
 
 [Services]
 [Services.Disqus]
@@ -28,14 +19,14 @@ dateFormat = "January 2, 2006"
 commit = false
 rss = true
 comments = true
-readingTime = true
-wordCount = true
-useHLJS = true
-socialShare = true
+# readingTime = true
+# wordCount = true
+useHLJS = false
+# socialShare = true
 delayDisqus = true
 showRelatedPosts = true
 #  cusdisID = "XXX" # Get your App id from cusdis.com
-#  hideAuthor = true
+hideAuthor = true
 #  gcse = "012345678901234567890:abcdefghijk" # Get your code from google.com/cse. Make sure to go to "Look and Feel" and change Layout to "Full Width" and Theme to "Classic"
 #  disclaimerText = "The opinions expressed herein are my own personal opinions and do not represent my employer’s view in any way."
 
@@ -54,7 +45,7 @@ showRelatedPosts = true
 [Params.author]
 # Set only your "username" for default hosts and full URLs otherwise (e.g., "https://MyGitLab.org/username")
 name = "Luke Addison"
-website = "blog.lukeaddison.co.uk"
+website = "https://blog.lukeaddison.co.uk"
 email = "lukeaddison785@gmail.com"
 # facebook = "username"
 github = "dippynark"
@@ -132,3 +123,9 @@ path = "github.com/halogenica/beautifulhugo"
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
+
+[markup]
+  # https://gohugo.io/configuration/markup/#highlight
+  [markup.highlight]
+    # https://gohugo.io/quick-reference/syntax-highlighting-styles/
+    style = 'trac'
