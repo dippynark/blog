@@ -84,7 +84,7 @@ so we need to make sure that `terminationGracePeriodSeconds` is set such that th
 before the Pod can been marked as not ready to avoid packets being blackholed. In other words we
 need:
 
-```sh
+```text
 lifecycleHookPreStopSleepSeconds + (readinessProbePeriodSeconds * (readinessProbeFailureThreshold - 1)) >= terminationGracePeriodSeconds
 ```
 
