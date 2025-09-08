@@ -60,7 +60,7 @@ EndpointSlices](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac
 Note also that Nginx Ingress Controller ships with a
 [`wait-shutdown`](https://github.com/kubernetes/ingress-nginx/blob/106e633655e7e5799ccf28d747b07d78833cd860/deploy/static/provider/baremetal/deploy.yaml#L446-L450)
 binary that is meant to be used instead of a sleep lifecycle hook together with the
-`--shutdown-grace-period` flag, however using this binary causes the readiness probe to start
+[`--shutdown-grace-period`](https://github.com/kubernetes/ingress-nginx/blob/a031a0893bcb777400a90cf189647f48b90bf6e0/pkg/flags/flags.go#L225) flag, however using this binary causes the readiness probe to start
 failing straight away which can cause traffic to be blackholed; see GitHub issue
 [#13689](https://github.com/kubernetes/ingress-nginx/issues/13689) for details.
 
