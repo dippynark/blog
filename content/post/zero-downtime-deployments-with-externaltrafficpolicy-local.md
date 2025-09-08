@@ -184,7 +184,9 @@ downtime deployments when running behind a Service of type LoadBalancer with ext
 Local, but they do not guarantee this even when all cluster components are working correctly.
 
 However, the remaining race conditions become increasingly rare as we increase the number of
-replicas and reduce Pod unavailability by using a PodDisruptionBudget or [surge
+replicas and reduce [voluntary Pod
+disruptions](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/) by using a
+PodDisruptionBudget or [surge
 updates](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment).
 
 In the future there may be additional options to mitigate these issues, for example [Pod termination
