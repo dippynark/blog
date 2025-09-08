@@ -60,15 +60,18 @@ EndpointSlices](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac
 Note also that Nginx Ingress Controller ships with a
 [`wait-shutdown`](https://github.com/kubernetes/ingress-nginx/blob/106e633655e7e5799ccf28d747b07d78833cd860/deploy/static/provider/baremetal/deploy.yaml#L446-L450)
 binary that is meant to be used instead of a sleep lifecycle hook together with the
-[`--shutdown-grace-period`](https://github.com/kubernetes/ingress-nginx/blob/a031a0893bcb777400a90cf189647f48b90bf6e0/pkg/flags/flags.go#L225) flag, however using this binary causes the readiness probe to start
-failing straight away which can cause traffic to be blackholed; see GitHub issue
+[`--shutdown-grace-period`](https://github.com/kubernetes/ingress-nginx/blob/a031a0893bcb777400a90cf189647f48b90bf6e0/pkg/flags/flags.go#L225)
+flag, however using this binary causes the readiness probe to start failing straight away which can
+cause traffic to be blackholed; see GitHub issue
 [#13689](https://github.com/kubernetes/ingress-nginx/issues/13689) for details.
 
 # Readiness Probe
 
 Once the load balancer health check has failed new connections will no longer be sent to the node,
 however packets corresponding to existing connections will continue to be routed. In our case load
-balancer connection draining is configured to be [30
+balancer [connection
+draining](https://cloud.google.com/load-balancing/docs/enabling-connection-draining) is configured
+to be [30
 seconds](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/backends/backends.go#L37),
 so we want to continue serving until these connections have been closed.
 
@@ -138,28 +141,50 @@ but just does not wait for it to be healthy, taking advantage of the fact that G
 passthrough Network Load Balancers [distribute new connections to all backend
 VMs](https://cloud.google.com/load-balancing/docs/internal/int-netlb-traffic-distribution#failover)
 if they are all unhealthy. This does not provide the same guarantees as the GKE container-native
-load balancing readiness gate, but it does protect against the load balancer controller being down
-(e.g. during a upgrade of the GKE control plane).
+load balancing readiness gate, but it does protect against an Nginx Ingress Controller rolling
+update progressing even if the load balancer controller is down (e.g. during an upgrade of the GKE
+control plane).
 
 As a simpler work around, the readiness probe can be delayed using `initialDelaySeconds` for an
 amount of time that gives a high chance that the local node has been registered before marking the
 Pod as ready (e.g. 20 seconds, slightly longer than the [Lease
-duration](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/flags/flags.go#L43-L44)).
+duration](https://github.com/kubernetes/ingress-gce/blob/203252bfcbe898dac338acd0790751b772097cd3/pkg/flags/flags.go#L43-L44)):
+
+```yaml
+containers:
+  - name: controller
+    lifecycle:
+      preStop:
+        sleep:
+          seconds: 10
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /healthz
+        port: 10254
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+terminationGracePeriodSeconds: 30
+```
 
 Note that GKE recommends using
 [`minReadySeconds`](https://cloud.google.com/kubernetes-engine/docs/how-to/container-native-load-balancing#align_rollouts)
 which works great when performing a rolling update but is not considered in other circumstances that
-cause Pods to be terminated and recreated (e.g. evictions caused by nodes being drained and vertical
-Pod autoscaling).
+cause Pods to be terminated and recreated (e.g. evictions caused by nodes being drained or due to
+[vertical Pod
+autoscaling](https://kubernetes.io/docs/concepts/workloads/autoscaling/#scaling-workloads-vertically)).
 
 # Conclusion
 
-As described above, there are a number of configuration options to improve the chance of zero
+As described above, there are a number of configuration options that can improve the chance of zero
 downtime deployments when running behind a Service of type LoadBalancer with externalTrafficPolicy
 Local, but they do not guarantee this even when all cluster components are working correctly.
 
 However, the remaining race conditions become increasingly rare as we increase the number of
-replicas and reducing Pod unavailability by using a PodDisruptionBudget or [surge
+replicas and reduce Pod unavailability by using a PodDisruptionBudget or [surge
 updates](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment).
 
 In the future there may be additional options to mitigate these issues, for example [Pod termination
