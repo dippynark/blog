@@ -49,8 +49,8 @@ logic.
 
 # Example
 
-One application of issuer-lib that I have found particularly powerful is running it in a management
-cluster and signing external issuer CertificateRequests in remote workload clusters by creating a
+One use of issuer-lib that I have found particularly powerful is running it in a management cluster
+and signing external issuer CertificateRequests in remote workload clusters by creating a
 corresponding CertificateRequest in the management cluster.
 
 This allows highly privileged credentials to be stored in the management cluster without exposing
