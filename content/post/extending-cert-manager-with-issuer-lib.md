@@ -28,8 +28,9 @@ spec:
     - example.com
 ```
 
-This capability is incredibly powerful in an enterprise environment where many complicated (and
-often perplexing) requirements may exist that cannot be handled by cert-manager's built-in issuers.
+This capability is incredibly powerful in an enterprise environment where many exceptional (and
+often extraordinary) requirements may exist that cannot be handled by cert-manager's built-in
+issuers.
 
 # issuer-lib
 
@@ -53,8 +54,8 @@ built-in cert-manager issuer running in a management cluster (perhaps after perf
 CertificateRequest validation).
 
 This allows highly privileged credentials for the built-in issuer to be stored in the management
-cluster without exposing them directly to the workload clusters, by effectively proxying
-CertificateRequest resources from workload clusters to the management cluster.
+cluster without exposing them directly to the workload clusters. Here issuer-lib is effectively
+reverse proxying CertificateRequests from workload clusters to the management cluster.
 
 In the following diagram, the workload clusters cannot authenticate directly to the enterprise TLS
 certificate management solution. Instead, any CertificateRequests created in the workload clusters
