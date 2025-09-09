@@ -57,10 +57,10 @@ This allows highly privileged credentials to be stored in the management cluster
 them directly to workload clusters. Custom validation can be applied before CertificateRequests are
 created in the management cluster to restrict the scope of each workload cluster.
 
-In the following diagram, the workload clusters cannot authenticate directly to the enterprise TLS
-certificate management solution. Instead, any CertificateRequests created in the workload clusters
-referencing the external issuer will be picked up and signed by the management cluster by creating a
-corresponding CertificateRequest in the management cluster. Note that cert-manager still needs to
-run in the workload clusters to manage the certificate lifecycle:
+In the following diagram, the workload clusters cannot authenticate directly to the enterprise
+certificate manager; instead, any CertificateRequests created in the workload clusters referencing
+the external issuer will be picked up and signed by creating a corresponding CertificateRequest in
+the management cluster. Note that cert-manager still needs to run in the workload clusters to manage
+the certificate lifecycle:
 
 ![issuer-lib](/img/issuer-lib.png)

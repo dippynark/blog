@@ -533,8 +533,8 @@
       "type": "arrow",
       "x": 809.0078125,
       "y": 638.2689293962972,
-      "width": 146.5429687499999,
-      "height": 28.56295472429963,
+      "width": 145.82031249999977,
+      "height": 35.60769689469032,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "#a5d8ff",
@@ -550,11 +550,11 @@
         "type": 2
       },
       "seed": 1659800876,
-      "version": 345,
-      "versionNonce": 413875092,
+      "version": 465,
+      "versionNonce": 1809830804,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1757432737276,
+      "updated": 1757449051700,
       "link": null,
       "locked": false,
       "points": [
@@ -563,16 +563,16 @@
           0
         ],
         [
-          146.5429687499999,
-          28.56295472429963
+          145.82031249999977,
+          35.60769689469032
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": null,
       "endBinding": {
         "elementId": "WGtkuy6BlZ4t1lNf96Iiw",
-        "focus": -0.26654255032128965,
-        "gap": 2.24609375
+        "focus": -0.34434675248395136,
+        "gap": 2.9687500000001137
       },
       "startArrowhead": null,
       "endArrowhead": "arrow",
@@ -582,9 +582,9 @@
       "id": "WGtkuy6BlZ4t1lNf96Iiw",
       "type": "rectangle",
       "x": 957.796875,
-      "y": 600.74609375,
-      "width": 215.07812500000009,
-      "height": 129.32421875,
+      "y": 619.1953125,
+      "width": 245.58203124999997,
+      "height": 111.67578125,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "#ffec99",
@@ -600,8 +600,8 @@
         "type": 3
       },
       "seed": 1158161196,
-      "version": 853,
-      "versionNonce": 1748979860,
+      "version": 945,
+      "versionNonce": 2000283796,
       "isDeleted": false,
       "boundElements": [
         {
@@ -613,16 +613,16 @@
           "type": "arrow"
         }
       ],
-      "updated": 1757432737274,
+      "updated": 1757449051696,
       "link": null,
       "locked": false
     },
     {
       "id": "eAC4Wgu7lYR9Dpwl4NcQK",
       "type": "text",
-      "x": 968.9960098266602,
-      "y": 640.408203125,
-      "width": 192.6798553466797,
+      "x": 973.1479873657227,
+      "y": 650.033203125,
+      "width": 214.8798065185547,
       "height": 50,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -637,20 +637,20 @@
       "index": "aN",
       "roundness": null,
       "seed": 888331692,
-      "version": 826,
-      "versionNonce": 1492349484,
+      "version": 961,
+      "versionNonce": 311932436,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1757432804429,
+      "updated": 1757449051696,
       "link": null,
       "locked": false,
-      "text": "Enterprise TLS\nCertificate Solution",
+      "text": "Enterprise Certificate\nManager",
       "fontSize": 20,
       "fontFamily": 5,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "WGtkuy6BlZ4t1lNf96Iiw",
-      "originalText": "Enterprise TLS Certificate Solution",
+      "originalText": "Enterprise Certificate Manager",
       "autoResize": true,
       "lineHeight": 1.25
     },
