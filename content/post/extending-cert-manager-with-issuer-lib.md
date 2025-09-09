@@ -43,8 +43,8 @@ library repository and implementing the
 [Check](https://github.com/cert-manager/issuer-lib/blob/d99ad6fb1498659b04babc6635bb6f65b74a6455/examples/simple/controller/signer.go#L66)
 and
 [Sign](https://github.com/cert-manager/issuer-lib/blob/d99ad6fb1498659b04babc6635bb6f65b74a6455/examples/simple/controller/signer.go#L70)
-functions, users can extend the functionality of cert-manager with their own certificate
-issuing logic.
+functions, users can extend the functionality of cert-manager with their own certificate issuing
+logic.
 
 # Example
 
@@ -54,8 +54,10 @@ built-in cert-manager issuer running in a management cluster (perhaps after perf
 CertificateRequest validation).
 
 This allows highly privileged credentials for the built-in issuer to be stored in the management
-cluster without exposing them directly to the workload clusters. Here issuer-lib is effectively
-reverse proxying CertificateRequests from workload clusters to the management cluster.
+cluster without exposing them directly to the workload clusters. Here issuer-lib is being used to
+effectively reverse proxy CertificateRequests from workload clusters to the management cluster;
+custom validation can be performed before the CertificateRequest is created in the management
+cluster.
 
 In the following diagram, the workload clusters cannot authenticate directly to the enterprise TLS
 certificate management solution. Instead, any CertificateRequests created in the workload clusters
