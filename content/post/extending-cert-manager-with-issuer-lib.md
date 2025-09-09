@@ -56,7 +56,7 @@ CertificateRequest validation).
 This allows highly privileged credentials for the built-in issuer to be stored in the management
 cluster without exposing them directly to the workload clusters. Here issuer-lib is being used to
 effectively reverse proxy CertificateRequests from workload clusters to the management cluster;
-custom validation can be performed before the CertificateRequest is created in the management
+custom validation can be applied before the CertificateRequests are created in the management
 cluster.
 
 In the following diagram, the workload clusters cannot authenticate directly to the enterprise TLS
