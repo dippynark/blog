@@ -7,7 +7,8 @@ tags: ["kubernetes"]
 [cert-manager](https://github.com/cert-manager/cert-manager) is the standard tool in the Kubernetes
 ecosystem for automatically provisioning and managing TLS certificates. cert-manager has a pluggable
 architecture allowing users to write their own [external
-issuers](https://cert-manager.io/docs/contributing/external-issuers/) (controllers that reconcile
+issuers](https://cert-manager.io/docs/contributing/external-issuers/) (i.e.
+[controllers](https://kubernetes.io/docs/concepts/architecture/controller/) that reconcile and sign
 [CertificateRequests](https://cert-manager.io/docs/usage/certificaterequest/)) while integrating
 with the rest of the cert-manager certificate management lifecycle (e.g. renewals):
 
@@ -18,7 +19,7 @@ metadata:
   name: example
   namespace: example
 spec:
-  # Provision certificate from my external issuer
+  # Sign certificate using my external issuer
   issuerRef:
     group: example.com
     kind: ExampleIssuer
@@ -48,20 +49,18 @@ logic.
 
 # Example
 
-One application of issuer-lib that I have found particularly powerful is using it to watch
-CertificateRequests in workload clusters and then fulfilling these CertificateRequests using a
-built-in cert-manager issuer running in a management cluster (perhaps after performing
-CertificateRequest validation).
+One application of issuer-lib that I have found particularly powerful is running it in a management
+cluster and signing external issuer CertificateRequests in remote workload clusters by creating a
+corresponding CertificateRequest in the management cluster.
 
-This allows highly privileged credentials for the built-in issuer to be stored in the management
-cluster without exposing them directly to the workload clusters. Here issuer-lib is being used to
-effectively reverse proxy CertificateRequests from workload clusters to the management cluster;
-custom validation can be applied before the CertificateRequests are created in the management
-cluster.
+This allows highly privileged credentials to be stored in the management cluster without exposing
+them directly to workload clusters. Custom validation can be applied before CertificateRequests are
+created in the management cluster to restrict the scope of each workload cluster.
 
 In the following diagram, the workload clusters cannot authenticate directly to the enterprise TLS
 certificate management solution. Instead, any CertificateRequests created in the workload clusters
-referencing the external issuer will be picked up and fulfilled by the management cluster. Note that
-cert-manager still needs to run in the workload clusters to manage the certificate lifecycle:
+referencing the external issuer will be picked up and signed by the management cluster by creating a
+corresponding CertificateRequest in the management cluster. Note that cert-manager still needs to
+run in the workload clusters to manage the certificate lifecycle:
 
 ![issuer-lib](/img/issuer-lib.png)
